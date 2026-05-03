@@ -851,7 +851,7 @@ function updateCartUI() {
 
   const subtotal = items.reduce((a, i) => a + i.price * i.qty, 0);
   document.getElementById('subtotalEl').textContent = `৳${subtotal}`;
-  document.getElementById('totalEl').textContent = `৳${subtotal + 60}`;
+  document.getElementById('totalEl').textContent = `৳${subtotal + 80}`;
 }
 
 function openCart() {
@@ -869,7 +869,7 @@ function openCheckout() {
   closeCart();
 
   const subtotal = items.reduce((a, i) => a + i.price * i.qty, 0);
-  const total = subtotal + 60;
+  const total = subtotal + 80;
 
   document.getElementById('orderSummaryMini').innerHTML = `
     <h4>Order Summary</h4>
