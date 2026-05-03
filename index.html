@@ -874,7 +874,7 @@ function openCheckout() {
   document.getElementById('orderSummaryMini').innerHTML = `
     <h4>Order Summary</h4>
     ${items.map(i => `<div class="mini-item"><span>${i.name} × ${i.qty}</span><span>৳${i.price * i.qty}</span></div>`).join('')}
-    <div class="mini-item"><span>Delivery</span><span>৳60</span></div>
+    <div class="mini-item"><span>Delivery</span><span>৳80</span></div>
     <div class="mini-total"><span>Total</span><span>৳${total}</span></div>
   `;
 
@@ -917,7 +917,7 @@ async function confirmOrder() {
 🛍 ORDER ITEMS:
 ${orderLines}
 
-🚚 Delivery: ৳60
+🚚 Delivery: ৳80
 💰 TOTAL: ৳${total}
 ━━━━━━━━━━━━━━━━━━━━`;
 
