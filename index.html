@@ -1,6 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Facebook Pixel -->
+  <script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '869139119550934');
+  fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=869139119550934&ev=PageView&noscript=1"/></noscript>
+  <!-- End Facebook Pixel -->
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ominelle — Bloom in Your Glow</title>
@@ -1061,6 +1078,15 @@ function addToCart(id) {
   cart[id] = cart[id] ? { ...cart[id], qty: cart[id].qty + 1 } : { ...p, qty: 1 };
   updateCartUI();
   showToast(`${p.emoji} ${p.name} added to cart!`);
+  // Facebook Pixel — AddToCart
+  if (typeof fbq !== 'undefined') {
+    fbq('track', 'AddToCart', {
+      content_name: p.name,
+      content_ids: [p.id],
+      value: p.price,
+      currency: 'BDT'
+    });
+  }
 }
 
 function removeFromCart(id) {
@@ -1127,6 +1153,11 @@ function openCheckout() {
   const items = Object.values(cart);
   if (items.length === 0) return;
   closeCart();
+  // Facebook Pixel — InitiateCheckout
+  if (typeof fbq !== 'undefined') {
+    const total = items.reduce((a, i) => a + i.price * i.qty, 0) + 80;
+    fbq('track', 'InitiateCheckout', { value: total, currency: 'BDT' });
+  }
 
   const subtotal = items.reduce((a, i) => a + i.price * i.qty, 0);
   const total = subtotal + 80;
@@ -1194,6 +1225,17 @@ ${orderLines}
 
     const data = await res.json();
     if (data.ok) {
+      // Facebook Pixel — Purchase
+      if (typeof fbq !== 'undefined') {
+        const purchaseItems = Object.values(cart);
+        const purchaseTotal = purchaseItems.reduce((a, i) => a + i.price * i.qty, 0) + 80;
+        fbq('track', 'Purchase', {
+          value: purchaseTotal,
+          currency: 'BDT',
+          content_ids: purchaseItems.map(i => i.id),
+          content_type: 'product'
+        });
+      }
       cart = {};
       updateCartUI();
       closeCheckout();
